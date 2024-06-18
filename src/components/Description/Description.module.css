@@ -1,0 +1,13 @@
+.description {
+    margin-bottom: 24px;
+    text-align: start;
+}
+
+.descriptionTitle {
+    font-size: 36px;
+    font-weight: bold;
+}
+
+.descriptionSubtitle {
+    font-size: 24px;
+}
