@@ -10,20 +10,24 @@ const cafeInfo = {
 };
 
 const initialState = () => {
-  return JSON.parse(localStorage.getItem('feedback')) || {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
+  return (
+    JSON.parse(localStorage.getItem('feedback')) || {
+      good: 0,
+      neutral: 0,
+      bad: 0,
+    }
+  );
 };
 
 function App() {
-  
   const { title, text } = cafeInfo;
   const [feedback, setFeedback] = useState(initialState);
   const totalFeedback = calcTotalFeedback();
   const positiveStatistic = calcPositiveStatistic();
-  useEffect(()=>localStorage.setItem('feedback', JSON.stringify(feedback)), [feedback]);
+  useEffect(
+    () => localStorage.setItem('feedback', JSON.stringify(feedback)),
+    [feedback]
+  );
 
   function updateFeedback(option) {
     setFeedback({ ...feedback, [option]: feedback[option] + 1 });
@@ -53,7 +57,6 @@ function App() {
     return positiveStatistic;
   }
 
- 
   return (
     <>
       <Description title={title} text={text}></Description>
@@ -61,12 +64,14 @@ function App() {
         feedback={feedback}
         onUpdate={updateFeedback}
         onReset={resetFeedback}
+        totalFeedback={totalFeedback}
       ></Options>
-      <Feedback
+      {totalFeedback !==0 && <Feedback
         feedback={feedback}
         totalFeedback={totalFeedback}
         positiveStatistic={positiveStatistic}
-      ></Feedback>
+      ></Feedback>}
+      {totalFeedback ==0 && <p>No feedback yet</p>}
     </>
   );
 }
