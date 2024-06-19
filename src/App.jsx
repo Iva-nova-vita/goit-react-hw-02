@@ -18,6 +18,9 @@ function App() {
   };
 
   const [feedback, setFeedback] = useState(initialState);
+  const totalFeedback = calcTotalFeedback();
+  const positiveStatistic = calcPositiveStatistic();
+  useEffect(updateLocalStorage, [feedback])
 
   function updateFeedback(option) {
     setFeedback({ ...feedback, [option]: feedback[option] + 1 });
@@ -30,9 +33,6 @@ function App() {
     }
     setFeedback(initialFeedback);
   }
-
-  const totalFeedback = calcTotalFeedback();
-  const positiveStatistic = calcPositiveStatistic();
 
   function calcTotalFeedback() {
     let total = 0;
@@ -53,7 +53,6 @@ function App() {
   function updateLocalStorage() {
     localStorage.setItem('feedback', JSON.stringify(feedback))
   }
-  useEffect(updateLocalStorage, [feedback])
 
   return (
     <>
