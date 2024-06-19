@@ -4,6 +4,11 @@ import Description from './components/Description/Description';
 import Options from './components/Options/Options';
 import Feedback from './components/Feedback/Feedback';
 
+const cafeInfo = {
+  title: 'Sip Happens Café',
+  text: 'Please leave your feedback about our service by selecting one of the options below.',
+};
+
 const initialState = () => {
   return JSON.parse(localStorage.getItem('feedback')) || {
     good: 0,
@@ -13,14 +18,9 @@ const initialState = () => {
 };
 
 function App() {
-  const cafeInfo = {
-    title: 'Sip Happens Café',
-    text: 'Please leave your feedback about our service by selecting one of the options below.',
-  };
+  
   const { title, text } = cafeInfo;
-
   const [feedback, setFeedback] = useState(initialState);
-
   const totalFeedback = calcTotalFeedback();
   const positiveStatistic = calcPositiveStatistic();
   useEffect(()=>localStorage.setItem('feedback', JSON.stringify(feedback)), [feedback]);
