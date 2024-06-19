@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import Description from './components/Description/Description';
 import Options from './components/Options/Options';
@@ -11,11 +11,13 @@ function App() {
   };
   const { title, text } = cafeInfo;
 
-  const [feedback, setFeedback] = useState({
+  const initialState = JSON.parse(localStorage.getItem('feedback')) || {
     good: 0,
     neutral: 0,
     bad: 0,
-  });
+  };
+
+  const [feedback, setFeedback] = useState(initialState);
 
   function updateFeedback(option) {
     setFeedback({ ...feedback, [option]: feedback[option] + 1 });
@@ -47,6 +49,11 @@ function App() {
         : Math.round((feedback.good / totalFeedback) * 100);
     return positiveStatistic;
   }
+
+  function updateLocalStorage() {
+    localStorage.setItem('feedback', JSON.stringify(feedback))
+  }
+  useEffect(updateLocalStorage, [feedback])
 
   return (
     <>
