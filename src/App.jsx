@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import './App.css';
 import Description from './components/Description/Description';
 import Options from './components/Options/Options';
@@ -18,33 +18,49 @@ function App() {
   });
 
   function updateFeedback(option) {
-    setFeedback({...feedback, [option]: feedback[option]+1})
+    setFeedback({ ...feedback, [option]: feedback[option] + 1 });
   }
 
   function resetFeedback() {
-    const initialFeedback = {...feedback}
+    const initialFeedback = { ...feedback };
     for (const key in initialFeedback) {
-      initialFeedback[key] = 0
+      initialFeedback[key] = 0;
     }
-    setFeedback(initialFeedback)
+    setFeedback(initialFeedback);
   }
 
-  const [totalFeedback, setTotalFeedback] = useState(0)
+  const totalFeedback = calcTotalFeedback();
+  const positiveStatistic = calcPositiveStatistic();
 
-  function updateTotalFeedback() {
-    let total = 0
+  function calcTotalFeedback() {
+    let total = 0;
     for (const key in feedback) {
-      total += feedback[key]
+      total += feedback[key];
     }
-    setTotalFeedback(total)
+    return total;
   }
-  useEffect(updateTotalFeedback);
+
+  function calcPositiveStatistic() {
+    const positiveStatistic =
+      totalFeedback === 0
+        ? 0
+        : Math.round((feedback.good / totalFeedback) * 100);
+    return positiveStatistic;
+  }
 
   return (
     <>
       <Description title={title} text={text}></Description>
-      <Options feedback={feedback} onUpdate={updateFeedback} onReset={resetFeedback}></Options>
-      <Feedback feedback={feedback} totalFeedback={totalFeedback}></Feedback>
+      <Options
+        feedback={feedback}
+        onUpdate={updateFeedback}
+        onReset={resetFeedback}
+      ></Options>
+      <Feedback
+        feedback={feedback}
+        totalFeedback={totalFeedback}
+        positiveStatistic={positiveStatistic}
+      ></Feedback>
     </>
   );
 }
