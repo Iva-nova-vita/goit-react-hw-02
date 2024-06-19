@@ -4,6 +4,14 @@ import Description from './components/Description/Description';
 import Options from './components/Options/Options';
 import Feedback from './components/Feedback/Feedback';
 
+const initialState = () => {
+  return JSON.parse(localStorage.getItem('feedback')) || {
+    good: 0,
+    neutral: 0,
+    bad: 0,
+  };
+};
+
 function App() {
   const cafeInfo = {
     title: 'Sip Happens Café',
@@ -11,16 +19,11 @@ function App() {
   };
   const { title, text } = cafeInfo;
 
-  const initialState = JSON.parse(localStorage.getItem('feedback')) || {
-    good: 0,
-    neutral: 0,
-    bad: 0,
-  };
-
   const [feedback, setFeedback] = useState(initialState);
+
   const totalFeedback = calcTotalFeedback();
   const positiveStatistic = calcPositiveStatistic();
-  useEffect(updateLocalStorage, [feedback])
+  useEffect(updateLocalStorage, [feedback]);
 
   function updateFeedback(option) {
     setFeedback({ ...feedback, [option]: feedback[option] + 1 });
@@ -51,7 +54,7 @@ function App() {
   }
 
   function updateLocalStorage() {
-    localStorage.setItem('feedback', JSON.stringify(feedback))
+    localStorage.setItem('feedback', JSON.stringify(feedback));
   }
 
   return (
