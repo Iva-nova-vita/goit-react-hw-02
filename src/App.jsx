@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import './App.css';
 import Description from './components/Description/Description';
 import Options from './components/Options/Options';
@@ -29,11 +29,22 @@ function App() {
     setFeedback(initialFeedback)
   }
 
+  const [totalFeedback, setTotalFeedback] = useState(0)
+
+  function updateTotalFeedback() {
+    let total = 0
+    for (const key in feedback) {
+      total += feedback[key]
+    }
+    setTotalFeedback(total)
+  }
+  useEffect(updateTotalFeedback);
+
   return (
     <>
       <Description title={title} text={text}></Description>
       <Options feedback={feedback} onUpdate={updateFeedback} onReset={resetFeedback}></Options>
-      <Feedback feedback={feedback}></Feedback>
+      <Feedback feedback={feedback} totalFeedback={totalFeedback}></Feedback>
     </>
   );
 }

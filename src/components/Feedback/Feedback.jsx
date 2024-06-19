@@ -1,6 +1,6 @@
 import css from './Feedback.module.css'
 
-export default function Feedback({feedback}) {
+export default function Feedback({feedback, totalFeedback}) {
     const options = Object.keys(feedback);
   return (
     <div className={css.feedback }>
@@ -11,6 +11,7 @@ export default function Feedback({feedback}) {
           </p>
         );
       })}
+      <p>Total: {totalFeedback}</p>
     </div>
   );
 }
